@@ -36,3 +36,9 @@ def secret():
 
     # 画面デザイン完了後、動作確認中
     return render_template("secret.html", user=current_user)
+
+
+@APP_BP.route("/top_page")
+def top_page():
+    logging.debug("新しいトップページにアクセスされました")
+    return render_template("top_page.html")
