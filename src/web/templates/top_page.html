@@ -1,10 +1,71 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-  新しいトップページ
+  トップページ
 {% endblock %}
 
 {% block content %}
-  <h1>新しいトップページ</h1>
-  <p>これは新しいトップページのコンテンツです。</p>
+  <!-- signup_header -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand" href="#">nifty 新生活</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#">新規登録</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">ログイン</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- 複数のカード -->
+  <div card-group="card-group">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">カードタイトル</h5>
+        <p class="card-text">カードの内容を記述します。カードの内容を記述します。カードの内容を記述します。</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">カードタイトル</h5>
+        <p class="card-text">カードの内容を記述します。カードの内容を記述します。カードの内容を記述します。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- フォーム -->
+  <form>
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">メールアドレス</label>
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+      <div id="emailHelp" class="form-text">あなたのメールアドレスを入力してください。</div>
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">パスワード</label>
+      <input type="password" class="form-control" id="exampleInputPassword1">
+    </div>
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+      <label class="form-check-label" for="exampleCheck1">チェックしてください</label>
+    </div>
+    <button type="submit" class="btn btn-primary">送信</button>
+  </form>
+
+  <!-- 投稿ボタン右下 -->
+  <div class="fixed-bottom text-end me-4 mb-4">
+    <button type="button" class="btn btn-primary btn-lg rounded-circle">
+      <i class="fas fa-plus"></i>
+    </button>
+  </div>
+
 {% endblock %}
