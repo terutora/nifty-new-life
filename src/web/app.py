@@ -2,7 +2,7 @@ import logging
 
 from flask import Flask
 
-from web.custom_rule import AddTeamNamePrefixCustomRule
+from web.custom_rule import AddTeamNamePrefixCustomRule, get_base_path
 
 from . import auth
 from .config import Config
@@ -16,7 +16,11 @@ logging.basicConfig(level=logging.DEBUG)
 # アプリケーション ファクトリ
 # 注意: この関数は基本的に変更する必要はないはずです。
 def create_app():
-    app = Flask(__name__)
+    # /static パスにも環境に応じてプレフィックスを付与する
+    app = Flask(
+        __name__,
+        static_url_path=f"{get_base_path()}/static",
+    )
     app.config.from_object(Config)
 
     # URL のマッピングルールをカスタマイズ
