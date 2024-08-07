@@ -43,3 +43,15 @@ def secret():
 def top_page():
     logging.debug("新しいトップページにアクセスされました")
     return render_template("top_page.html")
+
+
+@APP_BP.route("/login")
+def login():
+    logging.debug("ログインページにアクセスされました")
+    return render_template("login.html")
+
+
+@APP_BP.route("/signup")
+def signup():
+    logging.debug("サインアップページにアクセスされました")
+    return render_template("signup.html")

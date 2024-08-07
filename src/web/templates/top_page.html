@@ -16,10 +16,11 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link" href="#">新規登録</a>
+              <a class="nav-link" href="{{ url_for('app.auth.signup') }}">新規登録</a>
+              <!--<a href="{{ url_for('app.top_page') }}" class="btn btn-primary mb-4">新しいトップページへ</a>-->
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">ログイン</a>
+              <a class="nav-link" href="{{ url_for('app.auth.login')}}">ログイン</a>
             </li>
           </ul>
         </div>
@@ -28,38 +29,20 @@
   </header>
 
   <!-- 複数のカード -->
-  <div card-group="card-group">
-    <div class="card">
+  <div card-group="card-group" class="mb-6">
+    <div class="card mt-3">
       <div class="card-body">
         <h5 class="card-title">カードタイトル</h5>
         <p class="card-text">カードの内容を記述します。カードの内容を記述します。カードの内容を記述します。</p>
       </div>
     </div>
-    <div class="card">
+    <div class="card mt-3">
       <div class="card-body">
         <h5 class="card-title">カードタイトル</h5>
         <p class="card-text">カードの内容を記述します。カードの内容を記述します。カードの内容を記述します。</p>
       </div>
     </div>
   </div>
-
-  <!-- フォーム -->
-  <form>
-    <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">メールアドレス</label>
-      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-      <div id="emailHelp" class="form-text">あなたのメールアドレスを入力してください。</div>
-    </div>
-    <div class="mb-3">
-      <label for="exampleInputPassword1" class="form-label">パスワード</label>
-      <input type="password" class="form-control" id="exampleInputPassword1">
-    </div>
-    <div class="mb-3 form-check">
-      <input type="checkbox" class="form-check-input" id="exampleCheck1">
-      <label class="form-check-label" for="exampleCheck1">チェックしてください</label>
-    </div>
-    <button type="submit" class="btn btn-primary">送信</button>
-  </form>
 
   <!-- 投稿ボタン右下 -->
   <div class="fixed-bottom text-end me-4 mb-4">
