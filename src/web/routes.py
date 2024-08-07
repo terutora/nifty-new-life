@@ -44,7 +44,7 @@ def secret():
 @APP_BP.route("/top_page")
 def top_page():
     logging.debug("新しいトップページにアクセスされました")
-    return render_template("answer.html")
+    return render_template("top_page.html")
 
 
 @APP_BP.route("/login")
@@ -77,8 +77,9 @@ def my_top_page():
     logging.debug("マイトップページにアクセスされました")
     return render_template("my_top_page.html", user=current_user)
 
-@APP_BP.route("/answer")
-@login_required
-def answer():
-    logging.debug("回答ページにアクセスされました")
-    return render_template("answer.html")
+
+# @APP_BP.route("/answer")
+# @login_required
+# def answer():
+#     logging.debug("回答ページにアクセスされました")
+#     return render_template("answer.html")
