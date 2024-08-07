@@ -42,8 +42,8 @@ def login():
         return render_template("login.html", form=form), 403
 
     login_user(user)
-    next = request.args.get("next") or url_for("app.index")
-    return redirect(next)
+    my_top_page = request.args.get("my_top_page") or url_for("app.my_top_page")
+    return redirect(my_top_page)
 
 
 @AUTH_BP.route("/logout", methods=["GET"])

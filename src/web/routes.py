@@ -55,3 +55,16 @@ def login():
 def signup():
     logging.debug("サインアップページにアクセスされました")
     return render_template("signup.html")
+
+
+@APP_BP.route("/form")
+def form():
+    logging.debug("フォームページにアクセスされました")
+    return render_template("form.html")
+
+
+@APP_BP.route("/my_top_page")
+@login_required  # 画面デザイン中はコメントアウトしておくとよい (編集するたびにログインが切れてしまうため)
+def my_top_page():
+    logging.debug("マイトップページにアクセスされました")
+    return render_template("my_top_page.html", user=current_user)
