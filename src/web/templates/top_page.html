@@ -41,32 +41,40 @@
     <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
       <div card-group="card-group" class="mb-6">
         <div class="card mt-3">
-          <div class="card-body">
-            <h5 class="card-title">未解決</h5>
-            <p class="card-text">カードの内容を記述します。カードの内容を記述します。カードの内容を記述します。</p>
-          </div>
+          <a class="nav-link" href="{{ url_for('app.answer')}}">
+            <div class="card-body">
+              <h5 class="card-title">未解決</h5>
+              <p class="card-text">カードの内容を記述します。カードの内容を記述します。カードの内容を記述します。</p>
+            </div>
+          </a>
         </div>
         <div class="card mt-3">
-          <div class="card-body">
-            <h5 class="card-title">未解決</h5>
-            <p class="card-text">カードの内容を記述します。カードの内容を記述します。カードの内容を記述します。</p>
-          </div>
+          <a class="nav-link" href="{{ url_for('app.answer')}}">
+            <div class="card-body">
+              <h5 class="card-title">未解決</h5>
+              <p class="card-text">カードの内容を記述します。カードの内容を記述します。カードの内容を記述します。</p>
+            </div>
+          </a>
         </div>
       </div>
     </div>
     <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
       <div card-group="card-group" class="mb-6">
         <div class="card mt-3">
-          <div class="card-body">
-            <h5 class="card-title">解決済み</h5>
-            <p class="card-text">カードの内容を記述します。カードの内容を記述します。カードの内容を記述します。</p>
-          </div>
+          <a class="nav-link" href="{{ url_for('app.answer')}}">
+            <div class="card-body">
+              <h5 class="card-title">解決済み</h5>
+              <p class="card-text">カードの内容を記述します。カードの内容を記述します。カードの内容を記述します。</p>
+            </div>
+          </a>
         </div>
         <div class="card mt-3">
-          <div class="card-body">
-            <h5 class="card-title">解決済み</h5>
-            <p class="card-text">カードの内容を記述します。カードの内容を記述します。カードの内容を記述します。</p>
-          </div>
+          <a class="nav-link" href="{{ url_for('app.answer')}}">
+            <div class="card-body">
+              <h5 class="card-title">解決済み</h5>
+              <p class="card-text">カードの内容を記述します。カードの内容を記述します。カードの内容を記述します。</p>
+            </div>
+          </a>
         </div>
       </div>
     </div>
@@ -74,7 +82,8 @@
 
   <!-- 投稿ボタン右下 -->
   <div class="fixed-bottom text-end me-4 mb-4">
-    <a href="{{ url_for('app.auth.login') }}">
+    <a class="nav-link" href="{{ url_for('app.form')}}">
+      <!--<a href="{{ url_for('app.form') }}">-->
       <button type="button" class="btn btn-primary btn-lg">
         投稿する
       </button>

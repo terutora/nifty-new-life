@@ -65,6 +65,12 @@ def form():
     return render_template("form.html")
 
 
+@APP_BP.route("/answer")
+def answer():
+    logging.debug("回答ページにアクセスされました")
+    return render_template("answer.html")
+
+
 @APP_BP.route("/my_top_page")
 @login_required  # 画面デザイン中はコメントアウトしておくとよい (編集するたびにログインが切れてしまうため)
 def my_top_page():
