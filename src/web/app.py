@@ -29,7 +29,6 @@ def create_app():
 
     # ログインモジュールを初期化
     auth.init_app(app)
-
     # アプリ用に、ルートとなる Blueprint を登録
     # 注意: 新しいルートを登録する場合も個々を変更する必要はありません。
     # /src/web/routes.py の APP_BP に登録してください。

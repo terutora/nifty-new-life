@@ -15,6 +15,7 @@ APP_BP.register_blueprint(AUTH_BP)
 def index():
     # ログ出力の方法
     logging.debug("トップページにアクセスされました")
+    # デフォルト:index.html を表示
     return render_template("index.html")
 
 
