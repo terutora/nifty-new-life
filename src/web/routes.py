@@ -5,6 +5,8 @@ from flask_login import current_user, login_required
 
 from web.auth.routes import AUTH_BP
 
+# from models import Thread
+
 APP_BP = Blueprint("app", __name__)
 
 # ログイン用のエンドポイントを追加する
