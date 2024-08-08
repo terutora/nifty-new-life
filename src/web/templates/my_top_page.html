@@ -10,7 +10,9 @@
   <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">
-        <a class="navbar-brand" href="{{ url_for('app.my_top_page') }}">@nifty 新生活</a>
+        <a class="navbar-brand" href="{{ url_for('app.my_top_page') }}">
+          <img src="{{ url_for('static', filename='nifty_new_life_logo.png') }}" style='width:300px'>
+        </a>
         <div class="navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
