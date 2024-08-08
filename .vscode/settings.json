@@ -22,5 +22,6 @@
   "python.defaultInterpreterPath": ".venv/bin/python",
   "editor.formatOnType": true,
   "editor.formatOnPaste": true,
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "python.analysis.extraPaths": ["./src/web"]
 }

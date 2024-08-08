@@ -1,11 +1,16 @@
 import logging
 
-from flask import Blueprint, render_template
+from flask import Blueprint, jsonify, render_template
 from flask_login import current_user, login_required
 
+# from .models import User
 from web.auth.routes import AUTH_BP
 
-# from models import Thread
+
+from .models import (
+    DB,
+    Thread,  # , Answer
+)
 
 APP_BP = Blueprint("app", __name__)
 
@@ -83,3 +88,25 @@ def my_top_page():
 # def answer():
 #     logging.debug("回答ページにアクセスされました")
 #     return render_template("answer.html")
+
+@APP_BP.route("/api/v1/all_threads")
+# @login_required
+def get_all_threads():
+    threads = DB.session.query(
+        Thread.thread_id, Thread.title, Thread.description, Thread.solve
+    ).all()
+    target_threads = func_like_threads_schema(threads)
+    return jsonify(target_threads)
+
+
+def func_like_threads_schema(threads):
+    target_threads = [
+        {
+            "thread_id": thread.thread_id,
+            "title": thread.title,
+            "description": thread.description,
+            "solve": thread.solve,
+        }
+        for thread in threads
+    ]
+    return target_threads
