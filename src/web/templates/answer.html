@@ -4,53 +4,25 @@
 {% endblock %}
 {% block content %}
 
-  <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container" style="background-color: rgb(255, 255, 128); height: 100px">
-        <h2>ここにデータベースからタイトルを引き出す</h2>
-        <div style="position: absolute; top: 70px">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="https://setsuzoku.nifty.com/">光ファイバー</a>
-              <!--<a class="nav-link" href="{{ url_for('app.auth.signup') }}">タグ1</a>-->
-              <!--<a href="{{ url_for('app.top_page') }}" class="btn btn-primary mb-4">新しいトップページへ</a>-->
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="https://nifmo.nifty.com/">MVNOサービス</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="https://online.nojima.co.jp/category/10000886/">エアコン</a>
-            </li>
-            <li class="nav-item"></li>
-            <li class="nav-item">
-              <a class="nav-link" href="https://setsuzoku.nifty.com/docomo/option/router.htm">ルーターレンタル</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="https://online.nojima.co.jp/category/106/">パソコン</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
-  <!-- 本文 -->
-  <div style="padding: 0.5em 1em;
-  m 0;
-    font-weight: bold;
-    border: solid 1px #000000;
-position:relative;
-			top: 30px;">
-    <h2>ここにデータベースから本文を引き出す
-    </div>
-    <br><br>
-    <div>
+  <body style="background-color: pink">
+    <div id="form_page" style="background-color: white; position:relative; height:900px; top: -30px;">
       <submit id="post">
-        <!-- 投稿ボタン -->
-        <button type="button" class="btn btn-primary btn-lg" btn-primary="btn-primary" btn-lg”="btn-lg”" id="post_btn">回答</button>
-        <!-- タイトル <h2>タイトル</h2> <input type="“text”" class="“form-control”" id="“title_edior”" placeholder="“タイトルを記入“"><br> -->
-        <h2>回答</h2>
-        <textarea id="qa_editor" placeholder="回答を記入して下さい" style="width: 100%; height: 300px;"></textarea><br>
-        <a href="{{ url_for('app.my_top_page') }}">トップページに戻る</a>
-      </submit>
-    </div>
-  {% endblock %}
+        <div id="company_name">
+          <img src="{{ url_for('static', filename='nifty_new_life_logo (2).png') }}" style="width: 300px; position: relative; left:10%; top:20px;">
+        </div>
+        <!-- タイトル -->
+
+        <h2 style="position: relative; left:130px">ここにデータベースからタイトルを引き出す</h2>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="https://setsuzoku.nifty.com/" style="position:relative; left:130px;">光ファイバー</a>
+            <!--<a class="nav-link" href="{{ url_for('app.auth.signup') }}">タグ1</a>-->
+            <!--<a href="{{ url_for('app.top_page') }}" class="btn btn-primary mb-4">新しいトップページへ</a>-->
+          </li>
+        </ul>
+        <h2 style="position:relative; left:130px;">ここに質問分があります</h2>
+        <h2 style="position:relative; left:130px;">ここに質問への回答があります</h2>
+        <textarea style="top:10px; position:relative; width: 1040px; left:130px; height:300px;"></textarea>
+          <button type="button" class="btn btn-primary btn-lg" btn-primary="btn-primary" btn-lg”="btn-lg”" id="post_btn" style="top:10px; position:relative; width: 1040px; left:130px;">回答する</button>
+      </body>
+    {% endblock %}
