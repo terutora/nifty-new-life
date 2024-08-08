@@ -22,7 +22,9 @@
         </ul>
         <h2 style="position:relative; left:130px;">ここに質問分があります</h2>
         <h2 style="position:relative; left:130px;">ここに質問への回答があります</h2>
-        <textarea style="top:10px; position:relative; width: 1040px; left:130px; height:300px;"></textarea>
-          <button type="button" class="btn btn-primary btn-lg" btn-primary="btn-primary" btn-lg”="btn-lg”" id="post_btn" style="top:10px; position:relative; width: 1040px; left:130px;">回答する</button>
+        <a class="nav-link" href="{{ url_for('app.auth.login')}}">
+          <button type="button" class="btn btn-primary btn-lg" btn-primary="btn-primary" btn-lg”="btn-lg”" id="post_btn" style="top:10px; position:relative; width: 1040px; left:130px;">回答するにはログインしてください</button>
+        </a>
       </body>
+
     {% endblock %}

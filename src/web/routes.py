@@ -46,7 +46,15 @@ def secret():
 @APP_BP.route("/top_page")
 def top_page():
     logging.debug("新しいトップページにアクセスされました")
-    return render_template("top_page.html")
+    # 未解決のスレッドを取得
+    unsolved_threads = DB.session.query(Thread).filter(Thread.solve == 0).all()
+    # 解決済みのスレッドを取得
+    solved_threads = DB.session.query(Thread).filter(Thread.solve == 1).all()
+    return render_template(
+        "top_page.html",
+        unsolved_threads=unsolved_threads,
+        solved_threads=solved_threads,
+    )
 
 
 @APP_BP.route("/login")
@@ -73,11 +81,25 @@ def answer():
     return render_template("answer.html")
 
 
+@APP_BP.route("/delogin_answer")
+def delogin_answer():
+    logging.debug("回答ページにアクセスされました")
+    return render_template("delogin_answer.html")
+
+
 @APP_BP.route("/my_top_page")
 @login_required  # 画面デザイン中はコメントアウトしておくとよい (編集するたびにログインが切れてしまうため)
 def my_top_page():
     logging.debug("マイトップページにアクセスされました")
-    return render_template("my_top_page.html", user=current_user)
+    unsolved_threads = DB.session.query(Thread).filter(Thread.solve == 0).all()
+    # 解決済みのスレッドを取得
+    solved_threads = DB.session.query(Thread).filter(Thread.solve == 1).all()
+    return render_template(
+        "my_top_page.html",
+        user=current_user,
+        unsolved_threads=unsolved_threads,
+        solved_threads=solved_threads,
+    )
 
 
 # @APP_BP.route("/answer")
@@ -85,6 +107,7 @@ def my_top_page():
 # def answer():
 #     logging.debug("回答ページにアクセスされました")
 #     return render_template("answer.html")
+
 
 # 全ての質問スレッドを取得するエンドポイントを追加する
 @APP_BP.route("/api/v1/all_threads", methods=["GET"])
@@ -116,6 +139,14 @@ def func_like_threads_schema(threads):
         for thread in threads
     ]
     return target_threads
+
+
+# 指定された質問idの質問の取得
+@APP_BP.route("/questions/<int:thread_id>", methods=["GET"])
+def get_question_by_id(thread_id):
+    thread = Thread.query.get_or_404(thread_id)
+    result = {"title": thread.title, "description": thread.description}
+    return jsonify(result)
 
 
 # 指定された質問idの質問の取得
