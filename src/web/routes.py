@@ -149,14 +149,6 @@ def get_question_by_id(thread_id):
     return jsonify(result)
 
 
-# 指定された質問idの質問の取得
-@APP_BP.route("/questions/<int:thread_id>", methods=["GET"])
-def get_question_by_id(thread_id):
-    thread = Thread.query.get_or_404(thread_id)
-    result = {"title": thread.title, "description": thread.description}
-    return jsonify(result)
-
-
 @APP_BP.route("/api/v1/all_professionals", methods=["GET"])
 # @login_required
 def get_all_professionals():
@@ -240,9 +232,10 @@ def get_user_professional(user_id):
         return jsonify({"error": "User not found"}), 404
     return jsonify({"professional": user.professional})
 
+
 @APP_BP.route("/api/v1/all_threads", methods=["GET"])
 # @login_required
-def get_all_threads():
+def get_threads():
     threads = DB.session.query(
         Thread.thread_id, Thread.title, Thread.description, Thread.solve
     ).all()
@@ -250,7 +243,7 @@ def get_all_threads():
     return jsonify(target_threads)
 
 
-def func_like_threads_schema(threads):
+def func_like_thread_schema(threads):
     target_threads = [
         {
             "thread_id": thread.thread_id,
@@ -261,6 +254,7 @@ def func_like_threads_schema(threads):
         for thread in threads
     ]
     return target_threads
+
 
 # 新規質問(質問タイトル、本文、タグ、解決済み)の作成
 @APP_BP.route("/api/v1/get_new_thread/<user_id>", methods=["POST"])
