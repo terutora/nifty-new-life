@@ -257,7 +257,7 @@ def func_like_thread_schema(threads):
 
 
 # 新規質問(質問タイトル、本文、タグ、解決済み)の作成
-@APP_BP.route("/api/v1/get_new_thread/<user_id>", methods=["POST"])
+@APP_BP.route("/api/v1/create_new_thread/<user_id>", methods=["POST"])
 def create_new_thread(user_id):
     #     if request.content_type != "application/json":
     #         return jsonify({"error": "Content-Type must be application/json"}), 415
@@ -271,3 +271,29 @@ def create_new_thread(user_id):
     DB.session.add(new_thread)
     DB.session.commit()
     return jsonify(func_like_threads_schema([new_thread]))
+
+
+# 新規回答文(質問id、回答文)の作成
+@APP_BP.route("/api/v1/create_new_answer/<thread_id>", methods=["POST"])
+def create_new_answer(thread_id):
+    # ユーザーがいるか確認する処理
+    new_answer = Answer(
+        thread_id=thread_id,
+        user_id=request.json["user_id"],
+        description=request.json["description"],
+    )
+    DB.session.add(new_answer)
+    DB.session.commit()
+    return jsonify(func_like_answer_schema([new_answer]))
+
+
+def func_like_answer_schema(answers):
+    target_answers = [
+        {
+            "thread_id": answer.thread_id,
+            "user_id": answer.user_id,
+            "description": answer.description,
+        }
+        for answer in answers
+    ]
+    return target_answers
