@@ -9,6 +9,7 @@ class User(DB.Model, UserMixin):
     hashed_password = DB.Column(DB.String(256))
     professional = DB.Column(DB.Integer, DB.ForeignKey("professional.professional_id"))
 
-    def __init__(self, username: str, hashed_password: str):
+    def __init__(self, username: str, hashed_password: str, professional: int):
         self.username = username
         self.hashed_password = hashed_password
+        self.professional = professional
