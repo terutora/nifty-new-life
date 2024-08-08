@@ -6,11 +6,8 @@ from flask_login import current_user, login_required
 # from .models import User
 from web.auth.routes import AUTH_BP
 
-
-from .models import (
-    DB,
-    Thread,  # , Answer
-)
+from .auth.models import User
+from .models import DB, Answer, Professional, Thread
 
 APP_BP = Blueprint("app", __name__)
 
@@ -89,11 +86,17 @@ def my_top_page():
 #     logging.debug("回答ページにアクセスされました")
 #     return render_template("answer.html")
 
-@APP_BP.route("/api/v1/all_threads")
+
+@APP_BP.route("/api/v1/all_threads", methods=["GET"])
 # @login_required
 def get_all_threads():
     threads = DB.session.query(
-        Thread.thread_id, Thread.title, Thread.description, Thread.solve
+        Thread.thread_id,
+        Thread.title,
+        Thread.description,
+        Thread.solve,
+        Thread.created_date,
+        Thread.updated_date,
     ).all()
     target_threads = func_like_threads_schema(threads)
     return jsonify(target_threads)
@@ -103,10 +106,97 @@ def func_like_threads_schema(threads):
     target_threads = [
         {
             "thread_id": thread.thread_id,
+            "user_id": thread.user_id,
             "title": thread.title,
             "description": thread.description,
             "solve": thread.solve,
+            "created_date": thread.created_date,
+            "updated_date": thread.updated_date,
         }
         for thread in threads
     ]
     return target_threads
+
+
+@APP_BP.route("/api/v1/all_professionals", methods=["GET"])
+# @login_required
+def get_all_professionals():
+    professionals = DB.session.query(
+        Professional.professional_id,
+        Professional.profession,
+    ).all()
+    target_professionals = func_like_professionals_schema(professionals)
+    return jsonify(target_professionals)
+
+
+def func_like_professionals_schema(professionals):
+    target_professionals = [
+        {
+            "professional_id": professional.professional_id,
+            "profession": professional.profession,
+        }
+        for professional in professionals
+    ]
+    return target_professionals
+
+
+@APP_BP.route("/api/v1/all_users", methods=["GET"])
+# @login_required
+def get_all_users():
+    users = DB.session.query(
+        User.id, User.username, User.hashed_password, User.professional
+    ).all()
+    target_users = func_like_users_schema(users)
+    return jsonify(target_users)
+
+
+def func_like_users_schema(users):
+    target_users = [
+        {
+            "id": user.id,
+            "username": user.username,
+            "hashed_password": user.hashed_password,
+            "professional": user.professional,
+        }
+        for user in users
+    ]
+    return target_users
+
+
+@APP_BP.route("/api/v1/all_answers", methods=["GET"])
+# @login_required
+def get_all_answers():
+    answers = DB.session.query(
+        Answer.answer_id,
+        Answer.thread_id,
+        Answer.user_id,
+        Answer.description,
+        Answer.created_date,
+        Answer.updated_date,
+    ).all()
+    target_answers = func_like_answers_schema(answers)
+    return jsonify(target_answers)
+
+
+def func_like_answers_schema(answers):
+    target_answers = [
+        {
+            "answer_id": answer.answer_id,
+            "thread_id": answer.thread_id,
+            "user_id": answer.user_id,
+            "description": answer.description,
+            "created_date": answer.created_date,
+            "updated_date": answer.updated_date,
+        }
+        for answer in answers
+    ]
+    return target_answers
+
+
+@APP_BP.route("/api/v1/user/<int:user_id>/professional", methods=["GET"])
+# @login_required
+def get_user_professional(user_id):
+    user = DB.session.query(User.professional).filter(User.id == user_id).first()
+    if user is None:
+        return jsonify({"error": "User not found"}), 404
+    return jsonify({"professional": user.professional})
