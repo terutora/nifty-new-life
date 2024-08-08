@@ -3,14 +3,11 @@ import logging
 from flask import Blueprint, jsonify, render_template
 from flask_login import current_user, login_required
 
+from web.auth.models import User
+
 # from .models import User
 from web.auth.routes import AUTH_BP
-
-
-from .models import (
-    DB,
-    Thread,  # , Answer
-)
+from web.models import DB, Answer, Professional, Thread
 
 APP_BP = Blueprint("app", __name__)
 
@@ -89,6 +86,8 @@ def my_top_page():
 #     logging.debug("回答ページにアクセスされました")
 #     return render_template("answer.html")
 
+
+# 全ての質問スレッドを取得するエンドポイントを追加する
 @APP_BP.route("/api/v1/all_threads")
 # @login_required
 def get_all_threads():
@@ -110,3 +109,11 @@ def func_like_threads_schema(threads):
         for thread in threads
     ]
     return target_threads
+
+
+# 指定された質問idの質問の取得
+@APP_BP.route("/questions/<int:thread_id>", methods=["GET"])
+def get_question_by_id(thread_id):
+    thread = Thread.query.get_or_404(thread_id)
+    result = {"title": thread.title, "description": thread.description}
+    return jsonify(result)
