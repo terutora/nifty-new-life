@@ -209,11 +209,3 @@ def get_user_professional(user_id):
     if user is None:
         return jsonify({"error": "User not found"}), 404
     return jsonify({"professional": user.professional})
-
-
-# 指定された質問idの質問の取得
-@APP_BP.route("/questions/<int:thread_id>", methods=["GET"])
-def get_question_by_id(thread_id):
-    thread = Thread.query.get_or_404(thread_id)
-    result = {"title": thread.title, "description": thread.description}
-    return jsonify(result)
