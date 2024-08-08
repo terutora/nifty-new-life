@@ -1,6 +1,6 @@
 import logging
 
-from flask import Blueprint, jsonify, render_template
+from flask import Blueprint, jsonify, render_template, request
 from flask_login import current_user, login_required
 
 # from .models import User
@@ -230,3 +230,41 @@ def get_user_professional(user_id):
     if user is None:
         return jsonify({"error": "User not found"}), 404
     return jsonify({"professional": user.professional})
+
+@APP_BP.route("/api/v1/all_threads", methods=["GET"])
+# @login_required
+def get_all_threads():
+    threads = DB.session.query(
+        Thread.thread_id, Thread.title, Thread.description, Thread.solve
+    ).all()
+    target_threads = func_like_threads_schema(threads)
+    return jsonify(target_threads)
+
+
+def func_like_threads_schema(threads):
+    target_threads = [
+        {
+            "thread_id": thread.thread_id,
+            "title": thread.title,
+            "description": thread.description,
+            "solve": thread.solve,
+        }
+        for thread in threads
+    ]
+    return target_threads
+
+# 新規質問(質問タイトル、本文、タグ、解決済み)の作成
+@APP_BP.route("/api/v1/get_new_thread/<user_id>", methods=["POST"])
+def create_new_thread(user_id):
+    #     if request.content_type != "application/json":
+    #         return jsonify({"error": "Content-Type must be application/json"}), 415
+    # ユーザーがいるか確認する処理
+    new_thread = Thread(
+        user_id=user_id,
+        title=request.json["title"],
+        description=request.json["description"],
+        solve=0,
+    )
+    DB.session.add(new_thread)
+    DB.session.commit()
+    return jsonify(func_like_threads_schema([new_thread]))
