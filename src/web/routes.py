@@ -1,6 +1,6 @@
 import logging
 
-from flask import Blueprint, jsonify, render_template, request
+from flask import Blueprint, flash, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 
 # from .models import User
@@ -75,16 +75,30 @@ def form():
     return render_template("form.html")
 
 
-@APP_BP.route("/answer")
-def answer():
-    logging.debug("回答ページにアクセスされました")
-    return render_template("answer.html")
+@APP_BP.route("/answer/<int:thread_id>")
+@login_required
+def answer(thread_id):
+    thread = DB.session.query(Thread).filter(Thread.thread_id == thread_id).first()
+    if not thread:
+        flash("指定されたスレッドが見つかりません。", "error")
+        return redirect(url_for("app.my_top_page"))
+
+    answers = DB.session.query(Answer).filter(Answer.thread_id == thread_id).all()
+
+    return render_template("answer.html", thread=thread, answers=answers)
 
 
-@APP_BP.route("/delogin_answer")
-def delogin_answer():
+@APP_BP.route("/delogin_answer/<int:thread_id>")
+def delogin_answer(thread_id):
     logging.debug("回答ページにアクセスされました")
-    return render_template("delogin_answer.html")
+    thread = DB.session.query(Thread).filter(Thread.thread_id == thread_id).first()
+    if not thread:
+        flash("指定されたスレッドが見つかりません。", "error")
+        return redirect(url_for("app.my_top_page"))
+
+    answers = DB.session.query(Answer).filter(Answer.thread_id == thread_id).all()
+
+    return render_template("delogin_answer.html", thread=thread, answers=answers)
 
 
 @APP_BP.route("/my_top_page")
