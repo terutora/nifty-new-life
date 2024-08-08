@@ -15,7 +15,7 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="collapse navbar-collapse" id="navbarNav" style="position:relative;">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('app.auth.signup') }}">新規登録</a>
@@ -80,16 +80,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- 投稿ボタン右下 -->
-  <div class="fixed-bottom text-end me-4 mb-4">
-    <a class="nav-link" href="{{ url_for('app.form')}}">
-      <!--<a href="{{ url_for('app.form') }}">-->
-      <button type="button" class="btn btn-primary btn-lg">
-        投稿する
-      </button>
-    </a>
   </div>
 
 {% endblock %}

@@ -21,7 +21,7 @@
                 さん。</span>
             </li>
             <li class="nav-item">
-              <i class="nav-link fa-solid fa-circle-user"></i>
+              <a href="{{ url_for('app.form') }}" class="btn btn-primary mb-4">投稿する</a>
             </li>
           </ul>
         </div>
@@ -79,15 +79,6 @@
         {% endfor %}
       </div>
     </div>
-  </div>
-
-  <!-- 投稿ボタン右下 -->
-  <div class="fixed-bottom text-end me-4 mb-4">
-    <a class="nav-link" href="{{ url_for('app.form')}}">
-      <button type="button" class="btn btn-primary btn-lg">
-        投稿する
-      </button>
-    </a>
   </div>
 
 {% endblock %}
