@@ -297,3 +297,28 @@ def func_like_answer_schema(answers):
         for answer in answers
     ]
     return target_answers
+
+
+# 職種データの登録
+@APP_BP.route("/api/v1/", methods=["POST"])
+def create_new_profession(thread_id):
+    # ユーザーがいるか確認する処理
+    new_profession = Professional(
+        professional_id=request.json["professional_id"],
+        Profession=request.json["profession"],
+    )
+    DB.session.add(new_profession)
+    DB.session.commit()
+    return jsonify(func_like_professinal_schema([new_profession]))
+
+
+def func_like_professinal_schema(profession):
+    target_profession = [
+        {
+            "thread_id": answer.thread_id,
+            "user_id": answer.user_id,
+            "description": answer.description,
+        }
+        for answer in profession
+    ]
+    return target_profession
