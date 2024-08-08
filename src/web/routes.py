@@ -80,6 +80,7 @@ def answer():
     logging.debug("回答ページにアクセスされました")
     return render_template("answer.html")
 
+
 @APP_BP.route("/delogin_answer")
 def delogin_answer():
     logging.debug("回答ページにアクセスされました")
@@ -231,9 +232,10 @@ def get_user_professional(user_id):
         return jsonify({"error": "User not found"}), 404
     return jsonify({"professional": user.professional})
 
+
 @APP_BP.route("/api/v1/all_threads", methods=["GET"])
 # @login_required
-def get_all_threads():
+def get_threads():
     threads = DB.session.query(
         Thread.thread_id, Thread.title, Thread.description, Thread.solve
     ).all()
@@ -241,7 +243,7 @@ def get_all_threads():
     return jsonify(target_threads)
 
 
-def func_like_threads_schema(threads):
+def func_like_thread_schema(threads):
     target_threads = [
         {
             "thread_id": thread.thread_id,
@@ -252,6 +254,7 @@ def func_like_threads_schema(threads):
         for thread in threads
     ]
     return target_threads
+
 
 # 新規質問(質問タイトル、本文、タグ、解決済み)の作成
 @APP_BP.route("/api/v1/get_new_thread/<user_id>", methods=["POST"])
