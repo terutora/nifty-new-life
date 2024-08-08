@@ -3,20 +3,30 @@
   トップページ
 {% endblock %}
 {% block content %}
-  <submit id="post">
-    <!-- 下書き保存ボタン -->
-    <button type="button" class="btn btn-primary btn-lg" id="pre_editor_btn">下書き保存</button>
-    <!-- 投稿ボタン -->
-    <button type="button" class="btn btn-primary btn-lg" id="post_btn">投稿</button>
-    <!-- タイトル -->
-    <h2>タイトル</h2>
-    <input type="text" class="form-control" id="title_edior" placeholder="タイトルを記入"><br>
-    <!-- タグ -->
-    <h2>タグ</h2>
-    <input type="text" class="form-control" id="tag_editor" placeholder="タグを記入"><br>
-    <!-- 本文 -->
-    <h2>本文</h2>
-    <textarea id="qa_editor" placeholder="困りごとを記入してください" style="width: 100%; height: 300px;"></textarea><br>
-    <a href="{{ url_for('app.my_top_page') }}">トップページに戻る</a>
-  </submit>
+  <body style="background-color: pink">
+    <div id="form_page" style="background-color: white; position:relative; height:900px; top: -30px;">
+      <submit id="post">
+        <div id="company_name">
+          <img src="{{ url_for('static', filename='nifty_new_life_logo (2).png') }}" style="width: 300px; position: relative; left:10%; top:20px;">
+          <!-- 下書き保存ボタン -->
+          <button type="button" class="btn btn-primary btn-lg" id="pre_editor_btn" style="position:relative; top:5px; left: 56%;">下書き保存</button>
+        </div>
+
+        <!-- タイトル -->
+        <h2 style="position: relative; left:10%">タイトル</h2>
+        <input type="text" class="form-control" id="title_edior" placeholder="タイトルを記入" style="border-radius: 10px; position: relative; left:10%; width: 80%; height:50px;"><br>
+        <!-- タグ -->
+        <h2 style="position: relative; left:10%">タグ</h2>
+        <input type="text" class="form-control" id="tag_editor" placeholder="タグを記入" style="border-radius: 10px; position: relative; left:10%; width: 80%; height:50px;"><br>
+        <!-- 本文 -->
+        <h2 style="position: relative; left:10%">本文</h2>
+        <textarea id="qa_editor" placeholder="困りごとを記入してください" style="width: 100%; height: 300px; border-radius: 10px; position: relative; left:10%; width: 80%;"></textarea><br>
+        <!-- 投稿ボタン -->
+        <button type="button" class="btn btn-primary btn-lg" id="post_btn" style="width: 80%; position: relative; left:10%; top: 10px;">投稿する</button>
+        <br>
+        <a href="{{ url_for('app.my_top_page') }}" style="position: relative; left:10%; top: 20px;">トップページに戻る</a>
+      </submit>
+    </div>
+  </body>
+
 {% endblock %}
