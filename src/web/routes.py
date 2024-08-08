@@ -16,11 +16,17 @@ APP_BP.register_blueprint(AUTH_BP)
 
 
 @APP_BP.route("/")
-def index():
-    # ログ出力の方法
-    logging.debug("トップページにアクセスされました")
-    # デフォルト:index.html を表示
-    return render_template("index.html")
+def top_pages():
+    logging.debug("新しいトップページにアクセスされました")
+    # 未解決のスレッドを取得
+    unsolved_threads = DB.session.query(Thread).filter(Thread.solve == 0).all()
+    # 解決済みのスレッドを取得
+    solved_threads = DB.session.query(Thread).filter(Thread.solve == 1).all()
+    return render_template(
+        "top_page.html",
+        unsolved_threads=unsolved_threads,
+        solved_threads=solved_threads,
+    )
 
 
 @APP_BP.route("/secret")
