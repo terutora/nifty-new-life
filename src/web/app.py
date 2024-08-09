@@ -6,7 +6,7 @@ from web.custom_rule import AddTeamNamePrefixCustomRule, get_base_path
 
 from . import auth
 from .config import Config
-from .models import DB, MIGRATE
+from .models import DB, MIGRATE, Professional
 from .routes import APP_BP
 
 # DEBUG ログを表示する
@@ -38,4 +38,28 @@ def create_app():
     # /src/web/routes.py の APP_BP に登録してください。
     app.register_blueprint(APP_BP)
 
+    app.cli.command("seed_db")(seed_db)
+
     return app
+
+
+def seed_db():
+    """Seed the database."""
+
+    # existing_user = (
+    #     DB.session.query(User).filter(User.username == "user1").one_or_none()  # type: ignore
+    # )
+    # if existing_user:
+    #     return
+
+    professional = Professional(professional_id=0, profession="質問者")
+    professional = Professional(professional_id=1, profession="光ファイバー")
+    professional = Professional(professional_id=2, profession="MVNOサービス")
+    professional = Professional(professional_id=3, profession="エアコン")
+    professional = Professional(professional_id=4, profession="ルーターレンタル")
+    professional = Professional(professional_id=5, profession="パソコン")
+    professional = Professional(professional_id=6, profession="その他")
+    DB.session.add(professional)
+
+    DB.session.commit()
+    print("Database seeded!")
