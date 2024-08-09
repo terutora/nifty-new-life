@@ -52,14 +52,16 @@ def seed_db():
     # if existing_user:
     #     return
 
-    professional = Professional(professional_id=0, profession="質問者")
-    professional = Professional(professional_id=1, profession="光ファイバー")
-    professional = Professional(professional_id=2, profession="MVNOサービス")
-    professional = Professional(professional_id=3, profession="エアコン")
-    professional = Professional(professional_id=4, profession="ルーターレンタル")
-    professional = Professional(professional_id=5, profession="パソコン")
-    professional = Professional(professional_id=6, profession="その他")
-    DB.session.add(professional)
+    professional = [
+        Professional(professional_id=0, profession="質問者"),
+        Professional(professional_id=1, profession="光ファイバー"),
+        Professional(professional_id=2, profession="MVNOサービス"),
+        Professional(professional_id=3, profession="エアコン"),
+        Professional(professional_id=4, profession="ルーターレンタル"),
+        Professional(professional_id=5, profession="パソコン"),
+        Professional(professional_id=6, profession="その他"),
+    ]
 
+    DB.session.add_all(professional)
     DB.session.commit()
     print("Database seeded!")
