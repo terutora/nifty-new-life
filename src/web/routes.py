@@ -98,18 +98,30 @@ def answer(thread_id):
         flash("指定されたスレッドが見つかりません。", "error")
         return redirect(url_for("app.my_top_page"))
 
-    answers = DB.session.query(Answer).filter(Answer.thread_id == thread_id).all()
+    answers = (
+        DB.session.query(Answer, User)
+        .join(User, Answer.user_id == User.id)
+        .filter(Answer.thread_id == thread_id)
+        .all()
+    )
 
     # Fetch professional status for each answer's user
     answer_data = []
-    for answer in answers:
+    for answer, user in answers:
         user = DB.session.query(User).filter(User.id == answer.user_id).first()
         is_professional = (
             user.professional is not None and user.professional >= 1 if user else False
         )
-        answer_data.append({"answer": answer, "is_professional": is_professional})
+        answer_data.append(
+            {"answer": answer, "user": user, "is_professional": is_professional}
+        )
 
-    return render_template("answer.html", thread=thread, answer_data=answer_data)
+    return render_template(
+        "answer.html",
+        thread=thread,
+        answer_data=answer_data,
+        current_user=current_user.id,
+    )
 
 
 @APP_BP.route("/delogin_answer/<int:thread_id>")
