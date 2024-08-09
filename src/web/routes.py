@@ -72,7 +72,10 @@ def signup():
 @APP_BP.route("/form")
 def form():
     logging.debug("フォームページにアクセスされました")
-    return render_template("form.html")
+    return render_template(
+        "form.html",
+        user_id=current_user.id,
+    )
 
 
 @APP_BP.route("/answer")
@@ -257,16 +260,14 @@ def func_like_thread_schema(threads):
 
 
 # 新規質問(質問タイトル、本文、タグ、解決済み)の作成
-@APP_BP.route("/api/v1/get_new_thread/<user_id>", methods=["POST"])
+@APP_BP.route("/api/v1/create_new_thread/<user_id>", methods=["POST"])
 def create_new_thread(user_id):
-    #     if request.content_type != "application/json":
-    #         return jsonify({"error": "Content-Type must be application/json"}), 415
     # ユーザーがいるか確認する処理
     new_thread = Thread(
         user_id=user_id,
         title=request.json["title"],
         description=request.json["description"],
-        solve=0,
+        solve=0,  # 未解決として初期化
     )
     DB.session.add(new_thread)
     DB.session.commit()
