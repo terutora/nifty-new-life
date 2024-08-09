@@ -68,6 +68,11 @@ def login():
     logging.debug("ログインページにアクセスされました")
     return render_template("login.html")
 
+@APP_BP.route("/not_login_form")
+def not_login_form():
+    logging.debug("ログインページにアクセスされました")
+    return render_template("not_login_form.html")
+
 
 @APP_BP.route("/signup")
 def signup():
