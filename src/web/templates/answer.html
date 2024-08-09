@@ -6,78 +6,81 @@
 
   <body style="background-color: pink">
     <div id="form_page" style="background-color: white; position:relative; height:auto; top: -30px;">
-      <submit id="post">
-        <div id="company_name">
-          <a class="navbar-brand" href="{{ url_for('app.my_top_page') }}">
-            <img src="{{ url_for('static', filename='nifty_new_life_logo (2).png') }}" style="width: 300px; position: relative; left:10%; top:20px;">
-          </a>
-        </div>
-        <!-- タイトル -->
-
-        <h2 style="position: relative; left:130px">{{ thread.title }}</h2>
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="https://setsuzoku.nifty.com/" style="position:relative; left:130px;">光ファイバー</a>
-          </li>
-        </ul>
-        <h2 style="position:relative; left:130px;">質問内容：</h2>
-        <h4 style="position:relative; left:130px; width: 1040px;">{{ thread.description }}</h4>
-        <h2 style="position:relative; left:130px;">回答：</h2>
-        {% for data in answer_data %}
-          <div style="position:relative; left:130px; width: 1040px; margin-bottom: 20px; border: 1px solid #ddd; padding: 10px;">
-            {% if data.is_professional %}
-              <i class="fa-regular fa-circle-check">pro</i>
-            {% endif %}
-            <h4>{{ data.answer.description }}</h4>
+      <div id="form_page" style="background-color: white; position:relative; height:auto; top: -30px;">
+        <submit id="post">
+          <div id="company_name">
+            <a class="navbar-brand" href="{{ url_for('app.my_top_page') }}">
+              <img src="{{ url_for('static', filename='nifty_new_life_logo (2).png') }}" style="width: 300px; position: relative; left:10%; top:20px;">
+            </a>
           </div>
-        {% endfor %}
+          <!-- タイトル -->
 
-        <form id="form" action="/api/v1/create_new_answer/{{thread.thread_id}}" method="post">
-          <input type="number" name="user_id" placeholder="user_id" style="top:10px; position:relative; left:130px;"/>
-          <br>
-          <textarea type="text" name="description" placeholder="answer" style="top:10px; position:relative; width: 1040px; left:130px; height:300px;"></textarea>
-          <button type="button" class="btn btn-primary btn-lg" btn-primary="btn-primary" btn-lg”="btn-lg”" id="post_btn" style="top:10px; position:relative; width: 1040px; left:130px;">回答する</button>
-        </form>
-        <script>
-          function get_data() {
-            console.log('post_btn clicked');
-            const user_id = document
-              .getElementsByName('user_id')[0]
-              .value
-              console
-              .log(user_id);
-            const description = document
-              .getElementsByName('description')[0]
-              .value;
-            console.log(description);
-            return JSON.stringify({description, user_id})
-          }
-          //const form = document
-          //  .getElementById("form")
-          //  .addEventListener('',)
-          const submitButton = document.getElementById("post_btn")
+          <h2 style="position: relative; left:130px">{{ thread.title }}</h2>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="https://setsuzoku.nifty.com/" style="position:relative; left:130px;">
+                <i class="fa-solid fa-tag">光ファイバー</i>
+              </a>
+            <li>
+          </ul>
+          <h2 style="position:relative; left:130px;">質問内容：</h2>
+          <h4 style="position:relative; left:130px; width: 1040px;">{{ thread.description }}</h4>
+          <h2 style="position:relative; left:130px;">回答：</h2>
+          {% for data in answer_data %}
+            <div style="position:relative; left:130px; width: 1040px; margin-bottom: 20px; border: 1px solid #ddd; padding: 10px;">
+              {% if data.is_professional %}
+                <i class="fa-regular fa-circle-check">pro</i>
+              {% endif %}
+              <h4>{{ data.answer.description }}</h4>
+            </div>
+          {% endfor %}
 
-          submitButton.onclick = () => {
-            data = get_data()
-            const action = form.getAttribute("action")
-            const options = {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: data
+          <form id="form" action="/api/v1/create_new_answer/{{thread.thread_id}}" method="post">
+            <input type="number" name="user_id" placeholder="user_id" style="top:10px; position:relative; left:130px;"/>
+            <br>
+            <textarea type="text" name="description" placeholder="answer" style="top:10px; position:relative; width: 1040px; left:130px; height:300px;"></textarea>
+            <button type="button" class="btn btn-primary btn-lg" btn-primary="btn-primary" btn-lg”="btn-lg”" id="post_btn" style="top:10px; position:relative; width: 1040px; left:130px;">回答する</button>
+          </form>
+          <script>
+            function get_data() {
+              console.log('post_btn clicked');
+              const user_id = document
+                .getElementsByName('user_id')[0]
+                .value
+                console
+                .log(user_id);
+              const description = document
+                .getElementsByName('description')[0]
+                .value;
+              console.log(description);
+              return JSON.stringify({description, user_id})
             }
-            fetch(action, options).then((e) => {
-              if (e.status === 200) {
-                alert("保存しました。")
-                return
+            //const form = document
+            //  .getElementById("form")
+            //  .addEventListener('',)
+            const submitButton = document.getElementById("post_btn")
+
+            submitButton.onclick = () => {
+              data = get_data()
+              const action = form.getAttribute("action")
+              const options = {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: data
               }
-              alert(`Error: ${e.message}`);
-            })
-          }
-        </script>
-        <submit>
-          <br><br>
-          <a href="{{ url_for('app.my_top_page') }}" style="position: relative; left:10%; top: 20px;">トップページに戻る</a>
-        </body>
-      {% endblock %}
+              fetch(action, options).then((e) => {
+                if (e.status === 200) {
+                  alert("保存しました。")
+                  return
+                }
+                alert(`Error: ${e.message}`);
+              })
+            }
+          </script>
+          <submit>
+            <br><br>
+            <a href="{{ url_for('app.my_top_page') }}" style="position: relative; left:10%; top: 20px;">トップページに戻る</a>
+          </body>
+        {% endblock %}

@@ -25,7 +25,9 @@
               <a class="nav-link" href="{{ url_for('app.auth.login')}}">ログイン</a>
             </li>
             <li class="nav-item">
-              <a href="{{ url_for('app.auth.login') }}" class="btn btn-primary mb-4">投稿</a>
+              <a href="{{ url_for('app.auth.login') }}" class="btn btn-primary mb-4">
+                <i class="fa-solid fa-pen">投稿する</i>
+              </a>
             </li>
           </ul>
         </div>
@@ -39,7 +41,7 @@
       <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">未解決</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">解決済み</button>
+      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">回答済み</button>
     </li>
   </ul>
   <div class="tab-content" id="myTabContent">
