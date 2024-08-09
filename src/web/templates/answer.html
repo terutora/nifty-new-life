@@ -46,9 +46,8 @@
               console.log('post_btn clicked');
               const user_id = document
                 .getElementsByName('user_id')[0]
-                .value
-                console
-                .log(user_id);
+                .value;
+              console.log(user_id);
               const description = document
                 .getElementsByName('description')[0]
                 .value;
@@ -70,13 +69,22 @@
                 },
                 body: data
               }
-              fetch(action, options).then((e) => {
-                if (e.status === 200) {
-                  alert("保存しました。")
-                  return
-                }
-                alert(`Error: ${e.message}`);
-              })
+              fetch(action, options)
+                .then(response => response.json())
+                .then(data => {
+                  if (data.answer) {
+                    console.log("回答を保存し、質問を解決済みにしました。");
+                    window.location.href = "{{ url_for('app.my_top_page') }}";
+                    // You might want to update the UI here to reflect the solved status
+                    // For example, you could disable the form or update a status indicator
+                  } else {
+                    alert("回答の保存中にエラーが発生しました。");
+                  }
+                })
+                .catch(error => {
+                  console.error('Error:', error);
+                  alert(`エラー: ${error.message}`);
+                });
             }
           </script>
           <submit>
