@@ -100,7 +100,16 @@ def answer(thread_id):
 
     answers = DB.session.query(Answer).filter(Answer.thread_id == thread_id).all()
 
-    return render_template("answer.html", thread=thread, answers=answers)
+    # Fetch professional status for each answer's user
+    answer_data = []
+    for answer in answers:
+        user = DB.session.query(User).filter(User.id == answer.user_id).first()
+        is_professional = (
+            user.professional is not None and user.professional >= 1 if user else False
+        )
+        answer_data.append({"answer": answer, "is_professional": is_professional})
+
+    return render_template("answer.html", thread=thread, answer_data=answer_data)
 
 
 @APP_BP.route("/delogin_answer/<int:thread_id>")
@@ -109,11 +118,21 @@ def delogin_answer(thread_id):
     thread = DB.session.query(Thread).filter(Thread.thread_id == thread_id).first()
     if not thread:
         flash("指定されたスレッドが見つかりません。", "error")
-        return redirect(url_for("app.my_top_page"))
+        return redirect(url_for("app.top_page"))
 
     answers = DB.session.query(Answer).filter(Answer.thread_id == thread_id).all()
 
-    return render_template("delogin_answer.html", thread=thread, answers=answers)
+    answer_data = []
+    for answer in answers:
+        user = DB.session.query(User).filter(User.id == answer.user_id).first()
+        is_professional = (
+            user.professional is not None and user.professional >= 1 if user else False
+        )
+        answer_data.append({"answer": answer, "is_professional": is_professional})
+
+    return render_template(
+        "delogin_answer.html", thread=thread, answer_data=answer_data
+    )
 
 
 @APP_BP.route("/my_top_page")

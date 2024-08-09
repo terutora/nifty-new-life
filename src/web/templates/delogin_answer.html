@@ -5,7 +5,7 @@
 {% block content %}
 
   <body style="background-color: pink">
-    <div id="form_page" style="background-color: white; position:relative; height:900px; top: -30px;">
+    <div id="form_page" style="background-color: white; position:relative; height:auto; top: -30px;">
       <submit id="post">
         <div id="company_name">
           <a class="navbar-brand" href="{{ url_for('app.my_top_page') }}">
@@ -17,17 +17,20 @@
         <h2 style="position: relative; left:130px">{{ thread.title }}</h2>
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="https://setsuzoku.nifty.com/" style="position:relative; left:130px;">光ファイバー</a>
-            <!--<a class="nav-link" href="{{ url_for('app.auth.signup') }}">タグ1</a>-->
-            <!--<a href="{{ url_for('app.top_page') }}" class="btn btn-primary mb-4">新しいトップページへ</a>-->
+            <a class="nav-link" href="https://setsuzoku.nifty.com/" style="position:relative; left:130px;">
+              <i class="fa-solid fa-tag">光ファイバー</i>
+            </a>
           </li>
         </ul>
         <h2 style="position:relative; left:130px;">質問内容：</h2>
-        <p style="position:relative; left:130px; width: 1040px;">{{ thread.description }}</p>
+        <h4 style="position:relative; left:130px; width: 1040px;">{{ thread.description }}</h4>
         <h2 style="position:relative; left:130px;">回答：</h2>
-        {% for answer in answers %}
+        {% for data in answer_data %}
           <div style="position:relative; left:130px; width: 1040px; margin-bottom: 20px; border: 1px solid #ddd; padding: 10px;">
-            <p>{{ answer.description }}</p>
+            {% if data.is_professional %}
+              <i class="fa-regular fa-circle-check">pro</i>
+            {% endif %}
+            <h4>{{ data.answer.description }}</h4>
           </div>
         {% endfor %}
 
