@@ -8,7 +8,9 @@
     <div id="form_page" style="background-color: white; position:relative; height:900px; top: -30px;">
       <submit id="post">
         <div id="company_name">
-          <img src="{{ url_for('static', filename='nifty_new_life_logo (2).png') }}" style="width: 300px; position: relative; left:10%; top:20px;">
+          <a class="navbar-brand" href="{{ url_for('app.my_top_page') }}">
+            <img src="{{ url_for('static', filename='nifty_new_life_logo (2).png') }}" style="width: 300px; position: relative; left:10%; top:20px;">
+          </a>
         </div>
         <!-- タイトル -->
 
