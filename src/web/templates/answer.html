@@ -29,10 +29,52 @@
           </div>
         {% endfor %}
 
-        <textarea style="top:10px; position:relative; width: 1040px; left:130px; height:300px;"></textarea>
-        <button type="button" class="btn btn-primary btn-lg" btn-primary="btn-primary" btn-lg”="btn-lg”" id="post_btn" style="top:10px; position:relative; width: 1040px; left:130px;">回答する</button>
-      </submit>
-      <br><br>
-      <a href="{{ url_for('app.my_top_page') }}" style="position: relative; left:10%; top: 20px;">トップページに戻る</a>
-    </body>
-  {% endblock %}
+        <form id="form" action="/api/v1/create_new_answer/{{thread.thread_id}}" method="post">
+          <input type="number" name="user_id" placeholder="user_id" style="top:10px; position:relative; left:130px;"/>
+          <br>
+          <textarea type="text" name="description" placeholder="answer" style="top:10px; position:relative; width: 1040px; left:130px; height:300px;"></textarea>
+          <button type="button" class="btn btn-primary btn-lg" btn-primary="btn-primary" btn-lg”="btn-lg”" id="post_btn" style="top:10px; position:relative; width: 1040px; left:130px;">回答する</button>
+        </form>
+        <script>
+          function get_data() {
+            console.log('post_btn clicked');
+            const user_id = document
+              .getElementsByName('user_id')[0]
+              .value
+              console
+              .log(user_id);
+            const description = document
+              .getElementsByName('description')[0]
+              .value;
+            console.log(description);
+            return JSON.stringify({description, user_id})
+          }
+          //const form = document
+          //  .getElementById("form")
+          //  .addEventListener('',)
+          const submitButton = document.getElementById("post_btn")
+
+          submitButton.onclick = () => {
+            data = get_data()
+            const action = form.getAttribute("action")
+            const options = {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: data
+            }
+            fetch(action, options).then((e) => {
+              if (e.status === 200) {
+                alert("保存しました。")
+                return
+              }
+              alert(`Error: ${e.message}`);
+            })
+          }
+        </script>
+        <submit>
+          <br><br>
+          <a href="{{ url_for('app.my_top_page') }}" style="position: relative; left:10%; top: 20px;">トップページに戻る</a>
+        </body>
+      {% endblock %}
