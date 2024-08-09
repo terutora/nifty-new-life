@@ -1,6 +1,6 @@
 import logging
 
-from flask import Blueprint, jsonify, render_template, request
+from flask import Blueprint, flash, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 
 # from .models import User
@@ -16,11 +16,17 @@ APP_BP.register_blueprint(AUTH_BP)
 
 
 @APP_BP.route("/")
-def index():
-    # ログ出力の方法
-    logging.debug("トップページにアクセスされました")
-    # デフォルト:index.html を表示
-    return render_template("index.html")
+def top_pages():
+    logging.debug("新しいトップページにアクセスされました")
+    # 未解決のスレッドを取得
+    unsolved_threads = DB.session.query(Thread).filter(Thread.solve == 0).all()
+    # 解決済みのスレッドを取得
+    solved_threads = DB.session.query(Thread).filter(Thread.solve == 1).all()
+    return render_template(
+        "top_page.html",
+        unsolved_threads=unsolved_threads,
+        solved_threads=solved_threads,
+    )
 
 
 @APP_BP.route("/secret")
@@ -63,6 +69,12 @@ def login():
     return render_template("login.html")
 
 
+@APP_BP.route("/not_login_form")
+def not_login_form():
+    logging.debug("ログインページにアクセスされました")
+    return render_template("not_login_form.html")
+
+
 @APP_BP.route("/signup")
 def signup():
     logging.debug("サインアップページにアクセスされました")
@@ -78,16 +90,30 @@ def form():
     )
 
 
-@APP_BP.route("/answer")
-def answer():
-    logging.debug("回答ページにアクセスされました")
-    return render_template("answer.html")
+@APP_BP.route("/answer/<int:thread_id>")
+@login_required
+def answer(thread_id):
+    thread = DB.session.query(Thread).filter(Thread.thread_id == thread_id).first()
+    if not thread:
+        flash("指定されたスレッドが見つかりません。", "error")
+        return redirect(url_for("app.my_top_page"))
+
+    answers = DB.session.query(Answer).filter(Answer.thread_id == thread_id).all()
+
+    return render_template("answer.html", thread=thread, answers=answers)
 
 
-@APP_BP.route("/delogin_answer")
-def delogin_answer():
+@APP_BP.route("/delogin_answer/<int:thread_id>")
+def delogin_answer(thread_id):
     logging.debug("回答ページにアクセスされました")
-    return render_template("delogin_answer.html")
+    thread = DB.session.query(Thread).filter(Thread.thread_id == thread_id).first()
+    if not thread:
+        flash("指定されたスレッドが見つかりません。", "error")
+        return redirect(url_for("app.my_top_page"))
+
+    answers = DB.session.query(Answer).filter(Answer.thread_id == thread_id).all()
+
+    return render_template("delogin_answer.html", thread=thread, answers=answers)
 
 
 @APP_BP.route("/my_top_page")
@@ -272,3 +298,54 @@ def create_new_thread(user_id):
     DB.session.add(new_thread)
     DB.session.commit()
     return jsonify(func_like_threads_schema([new_thread]))
+
+
+# 新規回答文(質問id、回答文)の作成
+@APP_BP.route("/api/v1/create_new_answer/<thread_id>", methods=["POST"])
+def create_new_answer(thread_id):
+    # ユーザーがいるか確認する処理
+    new_answer = Answer(
+        thread_id=thread_id,
+        user_id=request.json["user_id"],
+        description=request.json["description"],
+    )
+    DB.session.add(new_answer)
+    DB.session.commit()
+    return jsonify(func_like_answer_schema([new_answer]))
+
+
+def func_like_answer_schema(answers):
+    target_answers = [
+        {
+            "thread_id": answer.thread_id,
+            "user_id": answer.user_id,
+            "description": answer.description,
+        }
+        for answer in answers
+    ]
+    return target_answers
+
+
+# 職種データの登録
+@APP_BP.route("/api/v1/", methods=["POST"])
+def create_new_profession(thread_id):
+    # ユーザーがいるか確認する処理
+    new_profession = Professional(
+        professional_id=request.json["professional_id"],
+        Profession=request.json["profession"],
+    )
+    DB.session.add(new_profession)
+    DB.session.commit()
+    return jsonify(func_like_professinal_schema([new_profession]))
+
+
+def func_like_professinal_schema(profession):
+    target_profession = [
+        {
+            "thread_id": answer.thread_id,
+            "user_id": answer.user_id,
+            "description": answer.description,
+        }
+        for answer in profession
+    ]
+    return target_profession

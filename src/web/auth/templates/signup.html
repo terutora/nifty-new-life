@@ -39,6 +39,13 @@
                   <div class="invalid-feedback d-block">{{ error }}</div>
                 {% endfor %}
               </div>
+              <div class="mb-3">
+                {{ form.professional.label(class="form-label") }}
+                {{ form.professional(class="form-control") }}
+                {% for error in form.professional.errors %}
+                  <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+              </div>
 
               <div class="d-grid gap-2">
                 {{ form.submit(class="btn btn-primary") }}

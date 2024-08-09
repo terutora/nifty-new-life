@@ -15,7 +15,7 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="collapse navbar-collapse" id="navbarNav" style="position:relative;">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('app.auth.signup') }}">新規登録</a>
@@ -23,6 +23,9 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('app.auth.login')}}">ログイン</a>
+            </li>
+                        <li class="nav-item">
+              <a href="{{ url_for('app.auth.login') }}" class="btn btn-primary mb-4">投稿</a>
             </li>
           </ul>
         </div>
@@ -42,54 +45,44 @@
   <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
       <div card-group="card-group" class="mb-6">
-        <div class="card mt-3">
-          <a class="nav-link" href="{{ url_for('app.delogin_answer')}}">
-            <div class="card-body">
-              <h5 class="card-title">未解決</h5>
-              <p class="card-text">カードの内容を記述します。カードの内容を記述します。カードの内容を記述します。</p>
-            </div>
-          </a>
-        </div>
-        <div class="card mt-3">
-          <a class="nav-link" href="{{ url_for('app.delogin_answer')}}">
-            <div class="card-body">
-              <h5 class="card-title">未解決</h5>
-              <p class="card-text">カードの内容を記述します。カードの内容を記述します。カードの内容を記述します。</p>
-            </div>
-          </a>
-        </div>
+        {% for thread in unsolved_threads %}
+          <div class="card mt-3">
+            <a class="nav-link" href="{{ url_for('app.delogin_answer', thread_id=thread.thread_id) }}">
+              <div class="card-body">
+                <h5 class="card-title">{{ thread.title }}</h5>
+                <p class="card-text">{{ thread.description[:100] }}
+                  {% if thread.description | length > 100 %}...{% endif %}
+                </p>
+                <p class="card-text">
+                  <small class="text-muted">作成日:
+                    {{ thread.created_date.strftime('%Y-%m-%d %H:%M') }}</small>
+                </p>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
       </div>
     </div>
     <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
       <div card-group="card-group" class="mb-6">
-        <div class="card mt-3">
-          <a class="nav-link" href="{{ url_for('app.delogin_answer')}}">
-            <div class="card-body">
-              <h5 class="card-title">解決済み</h5>
-              <p class="card-text">カードの内容を記述します。カードの内容を記述します。カードの内容を記述します。</p>
-            </div>
-          </a>
-        </div>
-        <div class="card mt-3">
-          <a class="nav-link" href="{{ url_for('app.delogin_answer')}}">
-            <div class="card-body">
-              <h5 class="card-title">解決済み</h5>
-              <p class="card-text">カードの内容を記述します。カードの内容を記述します。カードの内容を記述します。</p>
-            </div>
-          </a>
-        </div>
+        {% for thread in solved_threads %}
+          <div class="card mt-3">
+            <a class="nav-link" href="{{ url_for('app.delogin_answer', thread_id=thread.thread_id) }}">
+              <div class="card-body">
+                <h5 class="card-title">{{ thread.title }}</h5>
+                <p class="card-text">{{ thread.description[:100] }}
+                  {% if thread.description | length > 100 %}...{% endif %}
+                </p>
+                <p class="card-text">
+                  <small class="text-muted">作成日:
+                    {{ thread.created_date.strftime('%Y-%m-%d %H:%M') }}</small>
+                </p>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
       </div>
     </div>
-  </div>
-
-  <!-- 投稿ボタン右下 -->
-  <div class="fixed-bottom text-end me-4 mb-4">
-    <a class="nav-link" href="{{ url_for('app.form')}}">
-      <!--<a href="{{ url_for('app.form') }}">-->
-      <button type="button" class="btn btn-primary btn-lg">
-        投稿する
-      </button>
-    </a>
   </div>
 
 {% endblock %}

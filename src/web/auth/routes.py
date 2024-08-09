@@ -16,7 +16,11 @@ def signup():
     if not form.validate_on_submit():
         return render_template("signup.html", form=form)
 
-    user = User(form.username.data, generate_password_hash(form.password.data))
+    user = User(
+        form.username.data,
+        generate_password_hash(form.password.data),
+        form.professional.data,
+    )
     try:
         DB.session.add(user)
         DB.session.commit()
