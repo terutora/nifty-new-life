@@ -329,8 +329,16 @@ def create_new_answer(thread_id):
         description=request.json["description"],
     )
     DB.session.add(new_answer)
+    thread = Thread.query.get(thread_id)
+    if thread:
+        thread.solve = 1
     DB.session.commit()
-    return jsonify(func_like_answer_schema([new_answer]))
+    return jsonify(
+        {
+            "answer": func_like_answer_schema([new_answer])[0],
+            "thread_solved": thread.solve if thread else None,
+        }
+    )
 
 
 def func_like_answer_schema(answers):
