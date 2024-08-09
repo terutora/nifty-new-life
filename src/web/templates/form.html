@@ -14,10 +14,10 @@
         </div>
         <!-- タイトル -->
         <h2 style="position: relative; left:10%">タイトル</h2>
-        <input type="text" class="form-control" id="title_edior" placeholder="タイトルを記入" style="border-radius: 10px; position: relative; left:10%; width: 80%; height:50px;"><br>
+        <input type="text" class="form-control" id="title_editor" placeholder="タイトルを記入" style="border-radius: 10px; position: relative; left:10%; width: 80%; height:50px;"><br>
         <!-- タグ -->
         <h2 style="position: relative; left:10%">タグ（任意）</h2>
-        <select name="tag_list_data" style="position: relative; height:30px; left:10%; border-radius: 10px">
+        <select name="tag_list_data" id="tag_list_data" style="position: relative; height:30px; left:10%; border-radius: 10px">
           <option>未選択</option>
           <option>光ファイバー</option>
           <option>MVNOサービス</option>
@@ -25,7 +25,6 @@
           <option>エアコン</option>
           <option>パソコン</option>
         </select>
-        <!-- <h2 style="position: relative; left:10%">タグ</h2> <input type="text" class="form-control" id="tag_editor" placeholder="タグを記入" style="border-radius: 10px; position: relative; left:10%; width: 80%; height:50px;"><br>-->
         <!-- 本文 -->
         <h2 style="position: relative; left:10%">本文</h2>
         <textarea id="qa_editor" placeholder="困りごとを記入してください" style="width: 100%; height: 300px; border-radius: 10px; position: relative; left:10%; width: 80%;"></textarea><br>
@@ -35,6 +34,47 @@
         <a href="{{ url_for('app.my_top_page') }}" style="position: relative; left:10%; top: 20px;">トップページに戻る</a>
       </submit>
     </div>
+    <script>
+      document
+        .getElementById('post_btn')
+        .addEventListener('click', function () {
+          console.log('post_btn clicked');
+          const title = document
+            .getElementById('title_editor')
+            .value;
+          console.log('title_editor', title);
+          const description = document
+            .getElementById('qa_editor')
+            .value;
+          console.log('qa_editor', description);
+          //const tag = document
+          //.getElementById('tag_list_data')
+          //.value;
+          //console.log('tag_list_data', tag);
+          //const userId = "{{ current_user.id }}";
+          //const userId = "{{ user_id}}";
+
+          //fetch(`/api/v1/create_new_thread/${userId}`, {
+          //fetch(`/api/v1/create_new_thread/<user_id>`, {
+          fetch(`/api/v1/create_new_thread/{{ user_id }}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            //body: JSON.stringify({title: title, description: description, tag: tag})
+            body: JSON.stringify({title: title, description: description})
+          })
+            .then(response => response.json())
+            .then(data => {
+              console.log('Success:', data);
+              window.location.href = "{{ url_for('app.my_top_page') }}";
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+              alert(`Error: ${error.message}`);
+            });
+        });
+    </script>
   </body>
 
-  {%endblock%}
+{% endblock %}
