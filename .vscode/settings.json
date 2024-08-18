@@ -23,5 +23,6 @@
   "editor.formatOnType": true,
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
-  "python.analysis.extraPaths": ["./src/web"]
+  "python.analysis.extraPaths": ["./src/web"],
+  "github-enterprise.uri": "https://git-codecommit.ap-northeast-1.amazonaws.com"
 }
